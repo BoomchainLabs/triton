@@ -172,7 +172,8 @@ CoarseSchedule getInitialSchedule(scf::ForOp forOp,
     // root at the stages of the latency ops to prune unnecessary stages.
     auto isLatencyOp = [&](Operation &op) {
       return opLatency.count(&op) ||
-             isa<LocalStoreOp, LocalLoadOp, ttng::TMEMLoadOp, ttng::TMEMStoreOp,
+             isa<LoadOp, DescriptorLoadOp, DescriptorGatherOp, LocalStoreOp,
+                 LocalLoadOp, ttng::TMEMLoadOp, ttng::TMEMStoreOp,
                  AsyncCopyGlobalToLocalOp, ttng::AsyncTMACopyGlobalToLocalOp,
                  ttng::AsyncTMAGatherOp, ttng::MMAv5OpInterface,
                  ttng::WaitBarrierOp, ttng::ArriveBarrierOp>(op);
@@ -270,7 +271,7 @@ CoarseSchedule::Cluster schedulePrologueAndEpilogue(scf::ForOp forOp,
       BackwardSliceOptions opt;
       opt.omitBlockArguments = true;
       opt.omitUsesFromAbove = false;
-      getBackwardSlice((Operation *)op, &backwardSlice, opt);
+      (void)getBackwardSlice((Operation *)op, &backwardSlice, opt);
 
       for (auto op : backwardSlice) {
         if (auto ifOp = dyn_cast<scf::IfOp>(op)) {

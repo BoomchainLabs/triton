@@ -33,10 +33,12 @@ namespace mlir {
 namespace test {
 void registerTestAliasPass();
 void registerTestAlignmentPass();
+void registerAMDTestAlignmentPass();
 void registerTestAllocationPass();
 void registerTestMembarPass();
 void registerTestAMDGPUMembarPass();
 void registerTestTritonAMDGPURangeAnalysis();
+void registerTestLoopPeelingPass();
 } // namespace test
 } // namespace mlir
 
@@ -47,8 +49,10 @@ inline void registerTritonDialects(mlir::DialectRegistry &registry) {
   mlir::triton::nvidia_gpu::registerTritonNvidiaGPUPasses();
   mlir::test::registerTestAliasPass();
   mlir::test::registerTestAlignmentPass();
+  mlir::test::registerAMDTestAlignmentPass();
   mlir::test::registerTestAllocationPass();
   mlir::test::registerTestMembarPass();
+  mlir::test::registerTestLoopPeelingPass();
   mlir::test::registerTestAMDGPUMembarPass();
   mlir::test::registerTestTritonAMDGPURangeAnalysis();
   mlir::triton::registerConvertTritonToTritonGPUPass();
